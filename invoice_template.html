@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Invoice</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 800px; margin: auto; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+        .logo-container { display: flex; flex-direction: column; }
+        .logo { width: 150px; }
+        .header-right { text-align: right; }
+        .header-right h1 { margin: 0; }
+        .header-right p { margin: 5px 0; }
+        .sold-by { margin-top: 10px; text-align: left; }
+        .sold-by div { margin-bottom: 5px; }
+        .address-container { text-align: right; margin-top: 20px; }
+        .address-container h2 { margin: 0; }
+        .address-container div { margin-bottom: 15px; }
+        .details-container { margin-top: 20px; }
+        .table-container { width: 100%; margin-top: 20px; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th, .table td { border: 1px solid #ddd; padding: 8px; }
+        .table th { background-color: #f2f2f2; }
+        .table td { text-align: right; }
+        .table td:first-child { text-align: left; }
+        .total { text-align: right; }
+        .signature { text-align: right; }
+        .separator { border-top: 1px solid #ddd; margin: 10px 0; }
+        .note { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="logo.jpeg" alt="Company Logo" class="logo">
+                <div class="sold-by">
+                    <div><strong>Sold By:</strong></div>
+                    <div><strong>PAN No:</strong> [pan_no]</div>
+                    <div><strong>GST No:</strong> [gst_no]</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <h1>Tax Invoice</h1> <!-- Change this to "Bill of Supply" or "Cash Memo" as needed -->
+                <p>Original for Recipient</p>
+            </div>
+        </div>
+
+        <div class="address-container">
+            <div>
+                <h2>Billing Details</h2>
+                <div><strong>Name:</strong> [billing_name]</div>
+                <div><strong>Address:</strong> [billing_address], [billing_city], [billing_state] - [billing_pincode]</div>
+            </div>
+            <div>
+                <h2>Shipping Details</h2>
+                <div><strong>Name:</strong> [shipping_name]</div>
+                <div><strong>Address:</strong> [shipping_address], [shipping_city], [shipping_state] - [shipping_pincode]</div>
+            </div>
+        </div>
+
+        <div class="details-container">
+            <div class="details">
+                <h2>Order Details</h2>
+                <div><strong>Order No:</strong> [order_no]</div>
+                <div><strong>Order Date:</strong> [order_date]</div>
+            </div>
+            <div class="details">
+                <h2>Invoice Details</h2>
+                <div><strong>Invoice No:</strong> [invoice_no]</div>
+                <div><strong>Invoice Date:</strong> [invoice_date]</div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Description</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Discount</th>
+                        <th>Net Amount</th>
+                        <th>Tax Rate</th>
+                        <th>Tax Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>[item.serial_no]</td>
+                        <td>[item.description]</td>
+                        <td>${[item.unit_price | format_currency]}</td>
+                        <td>[item.quantity]</td>
+                        <td>${[item.discount | format_currency]}</td>
+                        <td>${[item.net_amount | format_currency]}</td>
+                        <td>[item.tax_rate]%</td>
+                        <td>${[item.tax_amount | format_currency]}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="7" class="total"><strong>Total Amount:</strong></td>
+                        <td>${[total_amount | format_currency]}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" class="separator"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="signature">
+                            <div>Amount in words: [amount_in_words]</div>
+                        </td>
+                        <td class="signature">
+                            <div style="text-align: right;">
+                                <img src="signature.jpeg" alt="Signature" width="150">
+                                <div>Authorized Signatory</div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="note">
+            <p>Whether tax is payable under reverse charge: No</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
